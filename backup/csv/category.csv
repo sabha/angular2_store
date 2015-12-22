@@ -1,9 +1,9 @@
-"categoryID","categoryName","description","picture"
-"1","Beverages","Soft drinks, coffees, teas, beers, and ales",""
-"2","Condiments","Sweet and savory sauces, relishes, spreads, and seasonings",""
-"3","Confections","Desserts, candies, and sweet breads",""
-"4","Dairy Products","Cheeses",""
-"5","Grains/Cereals","Breads, crackers, pasta, and cereal",""
-"6","Meat/Poultry","Prepared meats",""
-"7","Produce","Dried fruit and bean curd",""
-"8","Seafood","Seaweed and fish",""
+categoryID,categoryName,description,picture
+1,Beverages,"Soft drinks, coffees, teas, beers, and ales",Beverages.jpg
+2,Condiments,"Sweet and savory sauces, relishes, spreads, and seasonings",condiments.jpg
+3,Confections,"Desserts, candies, and sweet breads",Confections.jpg
+4,Dairy Products,Cheeses,dairyProducts.jpg
+5,Grains/Cereals,"Breads, crackers, pasta, and cereal",GrainsCereals.jpg
+6,Meat/Poultry,Prepared meats,Meat.jpg
+7,Produce,Dried fruit and bean curd,Produce.jpg
+8,Seafood,Seaweed and fish,Seafood.jpg
