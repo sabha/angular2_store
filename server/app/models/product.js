@@ -14,7 +14,7 @@ var productSchema   = new Schema({
     discontinued : String
 });
 
-module.exports = mongoose.model('Product', productSchema , 'product');
+module.exports = mongoose.model('product', productSchema , 'product');
 
 /*
     "_id" : ObjectId("5677a782394d55e3fc7c2273"),

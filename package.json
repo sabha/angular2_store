@@ -9,15 +9,17 @@
   "license": "ISC",
   "dependencies": {
     "angular2": "2.0.0-beta.0",
-    "systemjs": "0.19.6",
+    "async": "^1.5.0",
+    "body-parser": "~1.0.1",
     "es6-promise": "^3.0.2",
     "es6-shim": "^0.33.3",
+    "express": "~4.0.0",
+    "inherits": "^2.0.1",
+    "mongoose": "~3.6.13",
     "reflect-metadata": "0.1.2",
     "rxjs": "5.0.0-beta.0",
-    "zone.js": "0.5.10",
-    "express": "~4.0.0",
-    "mongoose": "~3.6.13",
-    "body-parser": "~1.0.1"    
+    "systemjs": "0.19.6",
+    "zone.js": "0.5.10"
   },
   "devDependencies": {
     "concurrently": "^1.0.0",

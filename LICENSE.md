@@ -32,5 +32,8 @@ mongoimport -d ngStore -c shipper     --type csv --file backup/csv/shipper.csv -
 mongoimport -d ngStore -c supplier    --type csv --file backup/csv/supplier.csv --headerline
 
 
+mongod --dbpath data --repair --repairpath data
 
+http://dev.enchant.com/api/v1
 
+http://devdocs.magento.com/guides/v2.0/rest/list.html

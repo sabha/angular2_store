@@ -1,7 +1,7 @@
 var mongoose     = require('mongoose');
 var Schema       = mongoose.Schema;
 
-var customerSchema   = new Schema({
+var customerschema   = new Schema({
     customerID : String,
     companyName : String,
     contactName : String,
@@ -15,7 +15,7 @@ var customerSchema   = new Schema({
     fax : String
 });
 
-module.exports = mongoose.model('Customer', customerSchema , 'customer');
+module.exports = mongoose.model('customer', customerschema , 'customer');
 
 /*
 {
