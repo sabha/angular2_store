@@ -1,0 +1,20 @@
+﻿
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Your branch is up-to-date with 'origin/master'.
+#
+# Changes to be committed:
+#	new file:   client/app/admin/customer/customer.html
+#	new file:   client/app/admin/dashboard/dashboard.html
+#	new file:   client/app/admin/login/login.html
+#	new file:   client/app/admin/order/order.html
+#	new file:   client/app/admin/product/product.html
+#	new file:   client/app/admin/supplier/supplier.html
+#	new file:   client/app/customerFacing/cart/cart.html
+#	new file:   client/app/customerFacing/checkout/checkout.html
+#	new file:   client/app/customerFacing/customerFacing.component.ts
+#	new file:   client/app/customerFacing/productSearch/productSearch.html
+#	new file:   client/app/models/Product.ts
+#
+
