@@ -11,8 +11,10 @@ import 'rxjs/add/operator/map';
 })
 
 export class HomeComponent { 
-    public storeFrontFeatures:[];
-    
+    //Local JSON
+    public storeFrontFeatures : [];
+    //From remote server api/adminFeatures
+    public adminFeatures : [];
     constructor (public http: Http){
         this.storeFrontFeatures = [ 
              {name:"Northwind Database"},
@@ -22,11 +24,11 @@ export class HomeComponent {
 			 {name:"Place Order"}
 			];
 			
-        http.get('api/categories')
+        http.get('https://ng2store-sabhab1.c9users.io/api/adminFeatures')
         // Call map on the response observable to get the parsed people object
         .map(res => res.json())
         // Subscribe to the observable to get the parsed people object and attach it to the
-        .subscribe(categories => console.log(categories));
+        .subscribe(features => this.adminFeatures = features);
 			
     }
     

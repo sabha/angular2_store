@@ -25,6 +25,7 @@ System.register(['angular2/core', 'angular2/router', 'angular2/http', 'rxjs/add/
         execute: function() {
             HomeComponent = (function () {
                 function HomeComponent(http) {
+                    var _this = this;
                     this.http = http;
                     this.storeFrontFeatures = [
                         { name: "Northwind Database" },
@@ -33,9 +34,9 @@ System.register(['angular2/core', 'angular2/router', 'angular2/http', 'rxjs/add/
                         { name: "Add to Cart & Checkout" },
                         { name: "Place Order" }
                     ];
-                    http.get('api/categories')
+                    http.get('https://ng2store-sabhab1.c9users.io/api/adminFeatures')
                         .map(function (res) { return res.json(); })
-                        .subscribe(function (categories) { return console.log(categories); });
+                        .subscribe(function (features) { return _this.adminFeatures = features; });
                 }
                 HomeComponent = __decorate([
                     core_1.Component({

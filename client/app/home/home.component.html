@@ -20,11 +20,9 @@
 		  <div class="panel-heading">Admin Panel</div>
 		  <div class="panel-body">
 		    <ul class="list-group">
-			  <li class="list-group-item">Dashboard</li>
-			  <li class="list-group-item">Manage Products</li>
-			  <li class="list-group-item">View Orders</li>
-			  <li class="list-group-item">View Customer</li>
-			  <li class="list-group-item">Analytics</li>
+			  <li *ngFor="#feature of adminFeatures" class="list-group-item">
+			      {{feature.name}}
+			    </li>
 			</ul>
 		  <div class="text-center">  
 		    <button [routerLink]="['Admin']" class="btn btn-success" type="button">Go to Admin Panel</button>
