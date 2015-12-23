@@ -18,11 +18,11 @@ app.use(bodyParser.json());
 var port     = process.env.PORT || 8080; // set our port
 var publicDir = process.argv[2] || __dirname + '';// suppse to be /client 
 
-
+/*
 app.get("/", function (req, res) {
   res.redirect("client/index.html");
 });
-
+*/
 app.use(express.static(publicDir));
 
 var mongoose   = require('mongoose');

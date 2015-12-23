@@ -1,15 +1,16 @@
 <html>
   <head>
     <title>Angular2 Store</title>
-
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="assets/css/bootstrap.css">
-
+    <script>document.write('<base href="' + document.location + '" />');</script>
     <!-- 1. Load libraries -->
     <script src="../node_modules/angular2/bundles/angular2-polyfills.js"></script>
     <script src="../node_modules/systemjs/dist/system.src.js"></script>
     <script src="../node_modules/rxjs/bundles/Rx.js"></script>
     <script src="../node_modules/angular2/bundles/angular2.dev.js"></script>
+    <script src="../node_modules/angular2/bundles/router.js"></script>
+    <script src="../node_modules/angular2/bundles/http.js"></script>
 
     <!-- 2. Configure SystemJS -->
     <script>
@@ -36,9 +37,7 @@
         </div>
       </div>
     </nav>
-    <div class="container">
-      <ng-store>Loading...</ng-store>
-    </div>
+    <ng-store>Loading Angular 2 Store...</ng-store>
   </body>
 
 </html>
