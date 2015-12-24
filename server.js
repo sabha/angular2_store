@@ -64,7 +64,7 @@ productRoute.configRoutes(router);
 categoryRoute.configRoutes(router);	
 
 // REGISTER OUR ROUTES -------------------------------
-app.use('/api', router);
+app.use('/client/api', router);
 
 // START THE SERVER
 // =============================================================================

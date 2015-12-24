@@ -24,7 +24,7 @@ export class HomeComponent {
 			 {name:"Place Order"}
 			];
 			
-        http.get('https://ng2store-sabhab1.c9users.io/api/adminFeatures')
+        http.get('api/adminFeatures')
         // Call map on the response observable to get the parsed people object
         .map(res => res.json())
         // Subscribe to the observable to get the parsed people object and attach it to the
