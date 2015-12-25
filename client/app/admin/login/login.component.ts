@@ -1,10 +1,10 @@
 import {Component} from 'angular2/core';
-import {LoginFormComponent} from './components/loginForm';
+import {AdminLoginFormComponent} from './components/adminLoginForm';
 
 
 @Component({
     templateUrl: './app/admin/login/login.component.html',
-    directives: [LoginFormComponent]
+    directives: [AdminLoginFormComponent]
 })
 
 export class LoginComponent { 

@@ -1,0 +1,29 @@
+<form [ngFormModel]="loginForm"  (ngSubmit)="onSubmit(loginForm.value)" >
+  <div class="form-group">
+    <label  for="email">Email address</label>
+    <input  type="email" class="form-control" id="email" placeholder="admin@ng2store.com"
+            #email="ngForm" [ngFormControl]="loginForm.controls['email']" >
+    
+    <div class="alert alert-danger" *ngIf="!email.valid && email.touched">
+      <div *ngIf="email.control.hasError('required')">Email is required</div>  
+      <div *ngIf="email.control.hasError('invalidEmail')">Email must be admin@ng2store.com</div>    
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label  for="password">Email address</label>
+    <input  type="password" class="form-control" id="password" placeholder="password"
+            #password="ngForm" [ngFormControl]="loginForm.controls['password']" 
+            minlength="4">
+    
+    <div class="alert alert-danger" *ngIf="!password.valid && password.touched">
+      <div *ngIf="password.control.hasError('required')">Password is required</div>  
+      <div *ngIf="password.control.hasError('minlength')">Minimum 4 char</div>    
+    </div>
+  </div>
+
+  <div class="alert alert-success" *ngIf="loginForm.valid">
+    <strong>Success!</strong> Form is valid.
+  </div>
+  <button type="submit" class="btn btn-default">Login</button>
+</form>
