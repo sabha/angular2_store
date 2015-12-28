@@ -27,6 +27,7 @@ System.register(['angular2/core', 'angular2/router', './productsearch/productsea
                 }
                 StroreFrontComponent = __decorate([
                     core_1.Component({
+                        selector: 'store-front',
                         templateUrl: './app/storefront/storefront.component.html',
                         directives: [router_1.ROUTER_DIRECTIVES]
                     }),

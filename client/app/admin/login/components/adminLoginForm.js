@@ -21,6 +21,7 @@ System.register(['angular2/core', 'angular2/common'], function(exports_1) {
         execute: function() {
             AdminLoginFormComponent = (function () {
                 function AdminLoginFormComponent(fb) {
+                    this.onSucessEvent = new core_1.EventEmitter();
                     this.loginForm = fb.group({
                         'email': ['', common_1.Validators.compose([common_1.Validators.required, this.emailValidator])],
                         'password': ['', common_1.Validators.compose([common_1.Validators.required, common_1.Validators.minlength])]
@@ -31,9 +32,14 @@ System.register(['angular2/core', 'angular2/common'], function(exports_1) {
                         return { invalidEmail: true };
                     }
                 };
-                AdminLoginFormComponent.prototype.onSubmit = function (value) {
+                AdminLoginFormComponent.prototype.onSucess = function (value) {
                     console.log('you submitted value: ', value);
+                    this.onSucessEvent.next();
                 };
+                __decorate([
+                    core_1.Output(), 
+                    __metadata('design:type', Object)
+                ], AdminLoginFormComponent.prototype, "onSucessEvent", void 0);
                 AdminLoginFormComponent = __decorate([
                     core_1.Component({
                         selector: 'admin-login-form',

@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router', './login/login.component', './dashboard/dashboard.component'], function(exports_1) {
+System.register(['angular2/core', 'angular2/router', './summary/summary.component', './product/product.component'], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,8 +8,8 @@ System.register(['angular2/core', 'angular2/router', './login/login.component', 
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, login_component_1, dashboard_component_1;
-    var AdminComponent;
+    var core_1, router_1, summary_component_1, product_component_1;
+    var DashboardComponent;
     return {
         setters:[
             function (core_1_1) {
@@ -18,33 +18,33 @@ System.register(['angular2/core', 'angular2/router', './login/login.component', 
             function (router_1_1) {
                 router_1 = router_1_1;
             },
-            function (login_component_1_1) {
-                login_component_1 = login_component_1_1;
+            function (summary_component_1_1) {
+                summary_component_1 = summary_component_1_1;
             },
-            function (dashboard_component_1_1) {
-                dashboard_component_1 = dashboard_component_1_1;
+            function (product_component_1_1) {
+                product_component_1 = product_component_1_1;
             }],
         execute: function() {
-            AdminComponent = (function () {
-                function AdminComponent() {
+            DashboardComponent = (function () {
+                function DashboardComponent() {
                 }
-                AdminComponent = __decorate([
+                DashboardComponent = __decorate([
                     core_1.Component({
-                        selector: "admin-panel",
-                        templateUrl: './app/admin/admin.component.html',
+                        selector: 'dashboard',
+                        templateUrl: './app/admin/dashboard/dashboard.component.html',
                         directives: [router_1.ROUTER_DIRECTIVES]
                     }),
                     router_1.RouteConfig([
                         // Admin and Storefront are child route    
-                        { path: '/', name: 'Login', component: login_component_1.LoginComponent, useAsDefault: true },
-                        { path: '/dashboard/...', name: 'Dashboard', component: dashboard_component_1.DashboardComponent },
+                        { path: '/', name: 'Summary', component: summary_component_1.SummaryComponent, useAsDefault: true },
+                        { path: '/products', name: 'ManageProducts', component: product_component_1.ProductComponent }
                     ]), 
                     __metadata('design:paramtypes', [])
-                ], AdminComponent);
-                return AdminComponent;
+                ], DashboardComponent);
+                return DashboardComponent;
             })();
-            exports_1("AdminComponent", AdminComponent);
+            exports_1("DashboardComponent", DashboardComponent);
         }
     }
 });
-//# sourceMappingURL=admin.component.js.map
+//# sourceMappingURL=dashboard.component.js.map

@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import {Component , Output, EventEmitter} from 'angular2/core';
 import {NgForm , FormBuilder ,Validators,required, ControlGroup , FORM_DIRECTIVES}    from 'angular2/common';
 
 @Component({
@@ -9,6 +9,7 @@ import {NgForm , FormBuilder ,Validators,required, ControlGroup , FORM_DIRECTIVE
 
 export class AdminLoginFormComponent { 
     public loginForm: ControlGroup;
+    @Output() onSucessEvent = new EventEmitter<Todo>();
     
     emailValidator(control: Control): { [s: string]: boolean } {  
         if (control.value != "admin@ng2store.com") {  
@@ -22,8 +23,9 @@ export class AdminLoginFormComponent {
         });
     }
     
-    onSubmit(value: string): void {  
-        console.log('you submitted value: ', value);  
+    onSucess(value: string): void {  
+        console.log('you submitted value: ', value);
+        this.onSucessEvent.next();
     }
 
     

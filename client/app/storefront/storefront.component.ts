@@ -3,6 +3,7 @@ import {RouteConfig, ROUTER_DIRECTIVES} from 'angular2/router';
 import {ProductSearchComponent} from './productsearch/productsearch.component';
 
 @Component({
+    selector: 'store-front',
     templateUrl: './app/storefront/storefront.component.html',
     directives: [ROUTER_DIRECTIVES]
 })
