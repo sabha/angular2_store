@@ -31,6 +31,14 @@ mongoimport -d ngStore -c product     --type csv --file backup/dump/products.csv
 mongoimport -d ngStore -c shipper     --type csv --file backup/dump/shippers.csv --headerline
 mongoimport -d ngStore -c supplier    --type csv --file backup/dump/suppliers.csv --headerline
 
+mongoexport --db ngStore --collection category --out backup/export/category.json
+mongoexport --db ngStore --collection customer --out backup/export/customer.json
+mongoexport --db ngStore --collection employee --out backup/export/employee.json
+mongoexport --db ngStore --collection order --out backup/export/order.json
+mongoexport --db ngStore --collection orderDetail --out backup/export/orderDetail.json
+mongoexport --db ngStore --collection product --out backup/export/product.json
+mongoexport --db ngStore --collection shipper --out backup/export/shipper.json
+mongoexport --db ngStore --collection supplier --out backup/export/supplier.json
 
 mongod --dbpath data --repair --repairpath data
 
