@@ -22,14 +22,14 @@ $ chmod a+x mongod
 
 ./mongod
 
-mongoimport -d ngStore -c category    --type csv --file backup/csv/category.csv --headerline
-mongoimport -d ngStore -c customer    --type csv --file backup/csv/customer.csv --headerline
-mongoimport -d ngStore -c employee    --type csv --file backup/csv/employee.csv --headerline
-mongoimport -d ngStore -c order       --type csv --file backup/csv/order.csv --headerline
-mongoimport -d ngStore -c orderDetail --type csv --file backup/csv/orderDetail.csv --headerline
-mongoimport -d ngStore -c product     --type csv --file backup/csv/product.csv --headerline
-mongoimport -d ngStore -c shipper     --type csv --file backup/csv/shipper.csv --headerline
-mongoimport -d ngStore -c supplier    --type csv --file backup/csv/supplier.csv --headerline
+mongoimport -d ngStore -c category    --type csv --file backup/dump/categories.csv --headerline
+mongoimport -d ngStore -c customer    --type csv --file backup/dump/customers.csv --headerline
+mongoimport -d ngStore -c employee    --type csv --file backup/dump/employees.csv --headerline
+mongoimport -d ngStore -c order       --type csv --file backup/dump/orders.csv --headerline
+mongoimport -d ngStore -c orderDetail --type csv --file backup/dump/orderdetails.csv --headerline
+mongoimport -d ngStore -c product     --type csv --file backup/dump/products.csv --headerline
+mongoimport -d ngStore -c shipper     --type csv --file backup/dump/shippers.csv --headerline
+mongoimport -d ngStore -c supplier    --type csv --file backup/dump/suppliers.csv --headerline
 
 
 mongod --dbpath data --repair --repairpath data
@@ -41,3 +41,5 @@ http://devdocs.magento.com/guides/v2.0/rest/list.html
 http://www.avactis.com/demo/
 
 https://ng2store-sabhab1.c9users.io
+
+https://coolors.co/app/f0b67f-fe5f55-d6d1b1-c7efcf-eef5db

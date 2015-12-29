@@ -1,4 +1,4 @@
-System.register(['angular2/core'], function(exports_1) {
+System.register(['angular2/core', 'angular2/http', 'rxjs/Rx'], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,23 +8,37 @@ System.register(['angular2/core'], function(exports_1) {
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1;
+    var core_1, http_1;
     var SummaryComponent;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
-            }],
+            },
+            function (http_1_1) {
+                http_1 = http_1_1;
+            },
+            function (_1) {}],
         execute: function() {
             SummaryComponent = (function () {
-                function SummaryComponent() {
+                function SummaryComponent(http) {
+                    var _this = this;
+                    this.http = http;
+                    http.get('api/dashboardSummary')
+                        .map(function (res) { return res.json(); })
+                        .subscribe(function (summary) {
+                        console.log(summary.data);
+                        _this.dashboardSummary = summary.data;
+                    });
                 }
                 SummaryComponent = __decorate([
                     core_1.Component({
                         selector: 'dashboard-summary',
                         templateUrl: './app/admin/dashboard/summary/summary.component.html',
+                        styleUrls: ['./app/admin/dashboard/summary/summary.style.css'],
+                        viewProviders: [http_1.HTTP_PROVIDERS]
                     }), 
-                    __metadata('design:paramtypes', [])
+                    __metadata('design:paramtypes', [http_1.Http])
                 ], SummaryComponent);
                 return SummaryComponent;
             })();

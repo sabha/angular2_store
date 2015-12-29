@@ -1,11 +1,15 @@
 <div class="row">
   <div class="col-xs-2">
     <div class="list-group">
-      <a [routerLink]="['Summary']" class="list-group-item active">Dashboard</a>
-      <a [routerLink]="['ManageProducts']" class="list-group-item">Products</a>
-      <a class="list-group-item">Orders</a>
-      <a class="list-group-item">Suppliers</a>
-      <a class="list-group-item">Customers</a>
+      
+      <a *ngFor="#item of menuItems" 
+          class="list-group-item" 
+          [class.active]="item.active" 
+          [class.disabled]="item.disabled"
+          (click)='onClick(item)'>
+            {{item.label}}
+      </a>
+      
     </div>
   </div>
   <div class="col-xs-10">

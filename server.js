@@ -10,6 +10,7 @@ var util 	   = require('./server/app/util');
 var customerRoute = require('./server/app/customerRoute');
 var productRoute  = require('./server/app/productRoute');
 var categoryRoute = require('./server/app/categoryRoute');
+var dashboardRoute= require('./server/app/dashboardRoute');
 
 // configure body parser
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -27,13 +28,6 @@ app.use(express.static(publicDir));
 
 var mongoose   = require('mongoose');
 mongoose.connect('mongodb://localhost:27017/ngStore'); // connect to our database
-
-var Category    = require('./server/app/models/category');
-var Employee    = require('./server/app/models/employee');
-var Order     	= require('./server/app/models/order');
-var OrderDetail	= require('./server/app/models/orderDetail');
-var Shipper     = require('./server/app/models/shipper');
-var Supplier    = require('./server/app/models/supplier');
 
 // ROUTES FOR OUR API
 // =============================================================================
@@ -62,6 +56,7 @@ router.get('/adminFeatures', function(req, res) {
 customerRoute.configRoutes(router);
 productRoute.configRoutes(router);
 categoryRoute.configRoutes(router);	
+dashboardRoute.configRoutes(router);
 
 // REGISTER OUR ROUTES -------------------------------
 app.use('/client/api', router);

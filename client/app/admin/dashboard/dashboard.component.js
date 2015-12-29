@@ -8,7 +8,7 @@ System.register(['angular2/core', 'angular2/router', './summary/summary.componen
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, summary_component_1, product_component_1;
+    var core_1, router_1, summary_component_1, product_component_1, router_2;
     var DashboardComponent;
     return {
         setters:[
@@ -17,6 +17,7 @@ System.register(['angular2/core', 'angular2/router', './summary/summary.componen
             },
             function (router_1_1) {
                 router_1 = router_1_1;
+                router_2 = router_1_1;
             },
             function (summary_component_1_1) {
                 summary_component_1 = summary_component_1_1;
@@ -26,8 +27,22 @@ System.register(['angular2/core', 'angular2/router', './summary/summary.componen
             }],
         execute: function() {
             DashboardComponent = (function () {
-                function DashboardComponent() {
+                function DashboardComponent(_router) {
+                    this._router = _router;
+                    this.menuItems = [{ label: 'Dashboard', active: true, disabled: false, routerLink: 'Dashboard' },
+                        { label: 'Poducts', active: false, disabled: false, routerLink: 'ManageProducts' },
+                        { label: 'Orders', active: false, disabled: false, routerLink: '' },
+                        { label: 'Suppliers', active: false, disabled: false, routerLink: '' },
+                        { label: 'Customers', active: false, disabled: false, routerLink: '' }];
                 }
+                DashboardComponent.prototype.onClick = function (selectedItem) {
+                    this.menuItems.forEach(function (item) {
+                        item.active = false;
+                    });
+                    selectedItem.active = true;
+                    if (selectedItem.routerLink != '')
+                        this._router.navigate([selectedItem.routerLink]);
+                };
                 DashboardComponent = __decorate([
                     core_1.Component({
                         selector: 'dashboard',
@@ -39,7 +54,7 @@ System.register(['angular2/core', 'angular2/router', './summary/summary.componen
                         { path: '/', name: 'Summary', component: summary_component_1.SummaryComponent, useAsDefault: true },
                         { path: '/products', name: 'ManageProducts', component: product_component_1.ProductComponent }
                     ]), 
-                    __metadata('design:paramtypes', [])
+                    __metadata('design:paramtypes', [router_2.Router])
                 ], DashboardComponent);
                 return DashboardComponent;
             })();
