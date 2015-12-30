@@ -33,4 +33,4 @@ Start Mongo
 $ npm start
 ```
 
-[Demo App] <http://demoapp-angular2store.rhcloud.com/client/index.html>
+[Demo App]: <http://demoapp-angular2store.rhcloud.com/client/index.html>
