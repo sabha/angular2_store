@@ -3,6 +3,8 @@ This demo application is build to explore all the news features in Angular2 like
 <br><br>
 API is written in Node , Database is MongoDB , and Data has been consumed from Northwind DB.
 
+Demo App
+
 ### Import Northwind DB
 ```sh
 mongoimport --db ngStore --collection category --type json --file backup/dump/category.json<br>
@@ -30,3 +32,5 @@ $ npm install
 Start Mongo
 $ npm start
 ```
+
+[Demo App] <http://demoapp-angular2store.rhcloud.com/client/index.html>
