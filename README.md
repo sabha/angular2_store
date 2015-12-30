@@ -3,7 +3,7 @@ This demo application is build to explore all the news features in Angular2 like
 <br><br>
 API is written in Node , Database is MongoDB , and Data has been consumed from Northwind DB.
 
-Demo App
+[Demo App]
 
 ### Import Northwind DB
 ```sh
