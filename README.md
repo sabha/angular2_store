@@ -13,14 +13,20 @@ mongoimport --db ngStore --collection shipper --type json --file backup/dump/shi
 mongoimport --db ngStore --collection supplier --type json --file backup/dump/supplier.json<br><br>
 
 After import run this code to conver date string to ISO date.
-<code>
+```sh
 db.order.find().forEach(function(e){
     e.OrderDate=new Date(e.OrderDate);
     e.RequiredDate=new Date(e.RequiredDate);
     e.ShippedDate=new Date(e.ShippedDate);
     db.order.save(e);
 });
-</code>
+```
+### Usage
 
+```sh
+$ npm install
+Start Mongo
+$ npm start
+```
 
 
