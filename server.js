@@ -11,13 +11,16 @@ var customerRoute = require('./server/app/customerRoute');
 var productRoute  = require('./server/app/productRoute');
 var categoryRoute = require('./server/app/categoryRoute');
 var dashboardRoute= require('./server/app/dashboardRoute');
+var mongoose   = require('mongoose');
 
 // configure body parser
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-var port     = process.env.PORT || 8080; // set our port
+var port     = process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 8080; // set our port
 var publicDir = process.argv[2] || __dirname + '';// suppse to be /client 
+
+var ipaddress = process.env.OPENSHIFT_NODEJS_IP;
 
 /*
 app.get("/", function (req, res) {
@@ -26,8 +29,23 @@ app.get("/", function (req, res) {
 */
 app.use(express.static(publicDir));
 
-var mongoose   = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/ngStore'); // connect to our database
+var url = 'mongodb://localhost:27017/ngStore';
+
+// if OPENSHIFT env variables are present, use the available connection info:
+if (process.env.OPENSHIFT_MONGODB_DB_URL) {
+    url = process.env.OPENSHIFT_MONGODB_DB_URL + process.env.OPENSHIFT_APP_NAME;
+}
+// Connect to mongodb
+var connect = function () {
+    mongoose.connect(url);
+};
+connect();
+
+var db = mongoose.connection;
+db.on('error', function(error){
+    console.log("Error loading the db - "+ error);
+});
+db.on('disconnected', connect);
 
 // ROUTES FOR OUR API
 // =============================================================================
@@ -63,5 +81,13 @@ app.use('/client/api', router);
 
 // START THE SERVER
 // =============================================================================
-app.listen(port);
+if (typeof ipaddress === "undefined") {
+    //  Log errors on OpenShift but continue w/ 127.0.0.1 - this
+    //  allows us to run/test the app locally.
+    console.warn('No OPENSHIFT_NODEJS_IP var, using 127.0.0.1');
+    //ipaddress = "127.0.0.1";
+    app.listen(port);
+}else{
+	app.listen(port,ipaddress);
+}
 console.log('Magic happens on port ' + port);

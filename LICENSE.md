@@ -31,6 +31,18 @@ mongoimport -d ngStore -c product     --type csv --file backup/dump/products.csv
 mongoimport -d ngStore -c shipper     --type csv --file backup/dump/shippers.csv --headerline
 mongoimport -d ngStore -c supplier    --type csv --file backup/dump/suppliers.csv --headerline
 
+
+mongoimport --db ngStore --collection category --type json --file backup/dump/category.json
+mongoimport --db ngStore --collection customer --type json --file backup/dump/customer.json
+mongoimport --db ngStore --collection employee --type json --file backup/dump/employee.json
+mongoimport --db ngStore --collection order --type json --file backup/dump/order.json
+mongoimport --db ngStore --collection orderDetail --type json --file backup/dump/orderDetail.json
+mongoimport --db ngStore --collection product --type json --file backup/dump/product.json
+mongoimport --db ngStore --collection shipper --type json --file backup/dump/shipper.json
+mongoimport --db ngStore --collection supplier --type json --file backup/dump/supplier.json
+
+
+
 mongoexport --db ngStore --collection category --out backup/export/category.json
 mongoexport --db ngStore --collection customer --out backup/export/customer.json
 mongoexport --db ngStore --collection employee --out backup/export/employee.json
@@ -51,3 +63,10 @@ http://www.avactis.com/demo/
 https://ng2store-sabhab1.c9users.io
 
 https://coolors.co/app/f0b67f-fe5f55-d6d1b1-c7efcf-eef5db
+
+db.order.find().forEach(function(e){
+    e.OrderDate=new Date(e.OrderDate);
+    e.RequiredDate=new Date(e.RequiredDate);
+    e.ShippedDate=new Date(e.ShippedDate);
+    db.order.save(e);
+});

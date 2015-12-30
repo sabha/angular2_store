@@ -3,15 +3,24 @@ Angular2 beta demo application to explore all the news features like template sy
 <br><br>
 API is written in Node , Database is MongoDB , and Data has been consumed from Northwind DB.<br><br>
 
-mongoimport -d ngStore -c category    --type csv --file backup/csv/category.csv --headerline<br>
-mongoimport -d ngStore -c customer    --type csv --file backup/csv/customer.csv --headerline<br>
-mongoimport -d ngStore -c employee    --type csv --file backup/csv/employee.csv --headerline<br>
-mongoimport -d ngStore -c order       --type csv --file backup/csv/order.csv --headerline<br>
-mongoimport -d ngStore -c orderDetail --type csv --file backup/csv/orderDetail.csv --headerline<br>
-mongoimport -d ngStore -c product     --type csv --file backup/csv/product.csv --headerline<br>
-mongoimport -d ngStore -c shipper     --type csv --file backup/csv/shipper.csv --headerline<br>
-mongoimport -d ngStore -c supplier    --type csv --file backup/csv/supplier.csv --headerline<br>
+mongoimport --db ngStore --collection category --type json --file backup/dump/category.json<br>
+mongoimport --db ngStore --collection customer --type json --file backup/dump/customer.json<br>
+mongoimport --db ngStore --collection employee --type json --file backup/dump/employee.json<br>
+mongoimport --db ngStore --collection order --type json --file backup/dump/order.json<br>
+mongoimport --db ngStore --collection orderDetail --type json --file backup/dump/orderDetail.json<br>
+mongoimport --db ngStore --collection product --type json --file backup/dump/product.json<br>
+mongoimport --db ngStore --collection shipper --type json --file backup/dump/shipper.json<br>
+mongoimport --db ngStore --collection supplier --type json --file backup/dump/supplier.json<br><br>
 
+
+<code>
+db.order.find().forEach(function(e){
+    e.OrderDate=new Date(e.OrderDate);
+    e.RequiredDate=new Date(e.RequiredDate);
+    e.ShippedDate=new Date(e.ShippedDate);
+    db.order.save(e);
+});
+</code>
 
 
 
