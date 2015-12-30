@@ -1,5 +1,5 @@
 # angular2_store
-This demo application is build to explore all the news features in Angular2 like Component , Typescript , new HTTP with RxJS , Pipes , Routes , Child Routes , Components and new template syntax (? # *).
+This demo application is build to explore all the news features in Angular2 like Component , Typescript , new HTTP with RxJS , Pipes , Routes , Child Routes , Components and new template syntax (?   #   *   []   ()   [()]).
 <br><br>
 API is written in Node , Database is MongoDB , and Data has been consumed from Northwind DB.
 
