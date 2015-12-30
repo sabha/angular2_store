@@ -2,20 +2,20 @@ var mongoose     = require('mongoose');
 var Schema       = mongoose.Schema;
 
 var orderSchema   = new Schema({
-    orderID : Number,
-    customerID : String,
-    employeeID : Number,
-    orderDate : Date,
-    requiredDate : Date,
-    shippedDate : Date,
-    shipVia : Number,
-    freight : Number,
-    shipName : String,
-    shipAddress : String,
-    shipCity : String,
-    shipRegion : String,
-    shipPostalCode : Number,
-    shipCountry : String
+    OrderID : Number,
+    CustomerID : String,
+    EmployeeID : Number,
+    OrderDate : Date,
+    RequiredDate : Date,
+    ShippedDate : Date,
+    ShipVia : Number,
+    Freight : Number,
+    ShipName : String,
+    ShipAddress : String,
+    ShipCity : String,
+    ShipRegion : String,
+    ShipPostalCode : Number,
+    ShipCountry : String
 });
 
 module.exports = mongoose.model('Order', orderSchema , 'order');

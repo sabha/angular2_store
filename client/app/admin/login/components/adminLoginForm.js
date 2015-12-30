@@ -32,9 +32,9 @@ System.register(['angular2/core', 'angular2/common'], function(exports_1) {
                         return { invalidEmail: true };
                     }
                 };
-                AdminLoginFormComponent.prototype.onSucess = function (value) {
-                    console.log('you submitted value: ', value);
-                    this.onSucessEvent.next();
+                AdminLoginFormComponent.prototype.onSucess = function (isValid) {
+                    if (isValid)
+                        this.onSucessEvent.next();
                 };
                 __decorate([
                     core_1.Output(), 

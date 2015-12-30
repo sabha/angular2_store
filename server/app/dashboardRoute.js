@@ -1,10 +1,7 @@
-var Product     = require('./models/product');
-var Order       = require('./models/order');
-var Category    = require('./models/product');
-var Supplier    = require('./models/supplier');
 var async = require("async");
-
 var util    = require('./util');                
+var asyncParallelTasks    = require('./dashboard/dashboardAsyncTasks.js'); 
+var asyncSeriesTasks    = require('./dashboard/dashboardAsyncTasks.js'); 
 
 function DashboardRoute() {
     console.log("Init Dashboard Summary Route");
@@ -12,81 +9,96 @@ function DashboardRoute() {
 DashboardRoute.prototype.configRoutes = function(router){
     //GET Dashboard Summary Data
     router.route('/dashboardSummary').get(getDashboardSummaryCallback);
+    
     var responseObj = {
         productsTotal:0,
         ordersTotal:0,
         categoriesTotal:0,
-        suppliersTotal:0
+        suppliersTotal:0,
+        minYear:0,
+        maxYear:0,
+        orderIds:{}
     };
     //CallBack for the API call Get Dashboard Summary
     function getDashboardSummaryCallback(req, res){
-        var asyncTasks = [];
-        //Compose all the Asyn tasks
-        asyncTasks.push(getCategoryCount);
-        asyncTasks.push(getOrderCount);
-        asyncTasks.push(getProductCount);
-        asyncTasks.push(getSupplierCount);
-        //Trigger the Async Task in Parallel
-        async.parallel(asyncTasks , finalCallback);
-        //Tasks Final Callback
-        function finalCallback(err) {
-            if (err) {
-                res.send(util.error(err));
-                throw err; //Or pass it on to an outer callback, log it or whatever suits your needs
-            }
-            console.log('Calculated the Total of Products , Orders , Categories , Suppliers');
-    		res.json(util.sucess(responseObj));
-        }        
-    }
-    //Task 1
-    function getOrderCount(callback){
-        Order.count({}, function( err, count){
-            if(err) {
-                console.log("Error occured while querying for Order COUNT.");
-                callback(err);
-            }
-            console.log( "Number of Orders :", count );
-            responseObj.ordersTotal = count;
-            callback(null);
-        });
-    }
-    //Task 2
-    function getCategoryCount(callback){
-        Category.count({}, function( err, count){
-            if(err) {
-                console.log("Error occured while querying for Category COUNT.");
-                callback(err);
-            }
-            console.log( "Number of Categories :", count );
-            responseObj.categoriesTotal = count;
-            callback(null);
-        });
-    }
-    //Task 3
-    function getSupplierCount(callback){
-        Supplier.count({}, function( err, count){
-            if(err) {
-                console.log("Error occured while querying for Supplier COUNT.");
-                callback(err);
-            }
+         /*************************************************************************
+                                  
+                                  FIRST PARALLEL Calls
+                                  
+        ***************************************************************************/    
+
+        function listOfAsyncParallelCalls_FIRST(rootCallback){
+            var asyncDashboardTasks = [];
+            asyncParallelTasks.responseObj = responseObj;
+            //Compose all the Asyn tasks
+            asyncDashboardTasks.push(asyncParallelTasks.getCategoryCount);
+            asyncDashboardTasks.push(asyncParallelTasks.getOrderCount);
+            asyncDashboardTasks.push(asyncParallelTasks.getProductCount);
+            asyncDashboardTasks.push(asyncParallelTasks.getSupplierCount);
+            asyncDashboardTasks.push(asyncParallelTasks.findMaxOrderDate);
+            asyncDashboardTasks.push(asyncParallelTasks.findMinOrderDate);
+            //Trigger the Async Task in Parallel
+            async.parallel(asyncDashboardTasks , First_parallelCalls_Final_Callback);
+            //Tasks Final Callback
+            function First_parallelCalls_Final_Callback(err) {
+                if (err) {
+                    console.log('Error occured while FIRST Async Parallel Calls');
+                    res.send(util.error(err));
+                }
+                console.log('SUCESS 1 : FIRST ASYNC PARALLEL Calls.');
+                console.log('Calculated the Total of Products , Orders , Categories , Suppliers , Min Year , & Max Year');
+        		rootCallback();
+        	}            
+        }
+
+        /***************************************************************************    
+                                  
+                                  SECOND PARALLEL Calls
+                                  
+        ***************************************************************************/    
+
+        function listOfAsyncParallelCalls_SECOND(rootCallback){
+            var asyncDashboardTasks = [];
             
-            console.log( "Number of Suppliers :", count );
-            responseObj.suppliersTotal = count;
-            callback(null);
-        });    
-    }
-    //Task 4
-   function getProductCount(callback){
-        Product.count({}, function( err, count){
-            if(err) {
-                console.log("Error occured while querying for Product COUNT.");
-                callback(err);
+             asyncDashboardTasks.push(asyncParallelTasks.getOrdrsByYear);
+           
+            async.parallel(asyncDashboardTasks , Second_parallelCalls_Final_Callback);
+            //Tasks Final Callback
+            function Second_parallelCalls_Final_Callback(err) {
+                if (err) {
+                    console.log('Error occured while Second Async Parallel Calls.');
+                    res.send(util.error(err));
+                }
+                console.log('SUCESS 2 : SECOND ASYNC PARALLEL Calls.');
+                //console.log('Calculated the Total of Products , Orders , Categories , Suppliers , Min Year , & Max Year');
+        		rootCallback();
+        		//res.json(util.sucess(responseObj));
+            }   
+        }
+        /*************************************************************************
+                
+                SERIES of PARALLEL Calls which pepare Dashboar Summary
+                
+        ***************************************************************************/    
+        var seriesDashboardTasks = [];
+        
+        seriesDashboardTasks.push(listOfAsyncParallelCalls_FIRST);
+        seriesDashboardTasks.push(listOfAsyncParallelCalls_SECOND);
+        
+        async.series(seriesDashboardTasks , seriesCalls_Callback);
+        
+        function seriesCalls_Callback(err){
+            if (err){
+                res.send(util.error(err));
             }
-            console.log( "Number of Products :", count );
-            responseObj.productsTotal = count;
-            callback(null);
-        });
+            console.log('SUCESS  : ASYNC SERIES Calls');
+            res.json(util.sucess(responseObj));
+            
+        }        
+
+        
     }
+    
 }
 
 module.exports = new DashboardRoute();

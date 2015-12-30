@@ -23,9 +23,8 @@ export class AdminLoginFormComponent {
         });
     }
     
-    onSucess(value: string): void {  
-        console.log('you submitted value: ', value);
-        this.onSucessEvent.next();
+    onSucess(isValid : Boolean): void {  
+        if(isValid)this.onSucessEvent.next();
     }
 
     
