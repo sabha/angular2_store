@@ -1,3 +1,0 @@
-{ "_id" : { "$oid" : "5682552bc79382cec8986080" }, "ShipperID" : 1, "CompanyName" : "Speedy Express", "Phone" : "(503) 555-9831" }
-{ "_id" : { "$oid" : "5682552bc79382cec8986081" }, "ShipperID" : 2, "CompanyName" : "United Package", "Phone" : "(503) 555-3199" }
-{ "_id" : { "$oid" : "5682552bc79382cec8986082" }, "ShipperID" : 3, "CompanyName" : "Federal Shipping", "Phone" : "(503) 555-9931" }
