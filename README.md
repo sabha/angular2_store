@@ -12,7 +12,7 @@ mongoimport --db ngStore --collection product --type json --file backup/dump/pro
 mongoimport --db ngStore --collection shipper --type json --file backup/dump/shipper.json<br>
 mongoimport --db ngStore --collection supplier --type json --file backup/dump/supplier.json<br><br>
 
-
+After import run this code to conver date string to ISO date.
 <code>
 db.order.find().forEach(function(e){
     e.OrderDate=new Date(e.OrderDate);
