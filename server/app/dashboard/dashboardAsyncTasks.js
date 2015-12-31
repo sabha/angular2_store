@@ -2,11 +2,97 @@ var Product     = require('../models/product');
 var Order       = require('../models/order');
 var Category    = require('../models/product');
 var Supplier    = require('../models/supplier');
+var OrderDetail    = require('../models/orderDetail');
+
 var async = require("async");
 
 var dashboardAsyncTasks = function dashboardAsyncTasks(){
     var self = this;
     this.responseObj = {};
+    this.getCountofOrderProdCatSupplier = function(rootCallback){
+        var collectionList = [  {name:Product , key:'productsTotal' },{name:Order , key:'ordersTotal'},{name:Category , key:'categoriesTotal'},{name:Supplier , key:'suppliersTotal'}];
+        async.forEach(collectionList , 
+            function(queryObj, callback) {
+                queryObj['name'].count({}, function( err, count){
+                    var key = queryObj['key'];
+                    if(err) {
+                        console.log("Error occured while querying for "+key);
+                        callback(err);
+                    }
+                    console.log( key +' : '+ count );
+                    self.responseObj[key] = count;
+                    callback(null);
+                });
+            } , 
+            function(err) {
+                if (err) {
+                    console.log("Error occured while finding the Count of Products, Categories, Supplier, & order.");
+                    rootCallback(err);
+                }
+                console.log("Sucessfully calculated the the Count of Products, Categories, Supplier, & order.");
+                rootCallback();
+            }
+        );        
+    }
+    this.getOrdersByYear = function(callback){
+        //db.order.aggregate([ {$group:{_id:{$year:"$OrderDate"} , OrderID:{$addToSet:$OrderID}}},{$sort:{"_id":1}} ])
+        Order.aggregate([
+            {$group:{_id:{$year:"$OrderDate"} , OrderID:{$addToSet:"$OrderID"}}}, 
+            {$sort:{"_id":1}} 
+        ] , function(err , result) {
+                if (err) {
+                    console.log("Error occured while grouping Order ID by Years.");
+                    callback(err);
+                }
+                console.log("Sucessfully grouped Order ID by Years.");
+                if(result && result.length > 0){
+                    var len = result.length;
+                    self.responseObj.minYear = result[0]._id;
+                    self.responseObj.maxYear = result[len-1]._id;
+                    self.responseObj.orderIdsbyYear = [];
+                    self.responseObj.orderIdsbyYear = result.map(function(obj){
+                        var r = {};
+                        r[obj._id] = obj.OrderID;
+                        return r;
+                    });
+                }
+                //console.log(self.responseObj.orderIdsbyYear);
+                callback();
+            });
+    }
+    
+    this.getProductsSoldByYear = function(callback){
+         //db.orderDetail.aggregate([ { $match :{"OrderID":{$in:orders}} },{$group:{_id:"$ProductID" , Total:{$sum:1} }} , {$sort:{'Total':1}} ]);
+         var orders , key ;
+         for(var i=0;i<self.responseObj.orderIdsbyYear.length;i++){
+             orders = self.responseObj.orderIdsbyYear[i];
+             for (var key in orders){
+                OrderDetail.aggregate([ 
+                    { $match :{"OrderID":{$in:orders[key]}} },
+                    { $group :{_id:"$ProductID" , Total:{$sum:1} }} , 
+                    { $sort  :{'Total':1}} 
+                    ],
+                     callbackHandler
+                     );                 
+             }
+             break;                     
+         }
+         
+         function callbackHandler(err , result) {
+            if (err) {
+                console.log("Error occured while aggregating Oders sold by year "+key);
+                callback(err);
+            }
+            console.log("Sucessfull aggregated Orders for the year "+key);
+            console.log(result);
+            callback();
+         }
+         
+    }
+    
+    
+
+    /*
     //Task 1
     this.getOrderCount = function(callback){
         Order.count({}, function( err, count){
@@ -92,7 +178,8 @@ var dashboardAsyncTasks = function dashboardAsyncTasks(){
     } 
     
     
-    this.getOrdrsByYear = function(rootCallback){
+    
+    this.getOrdersByYear = function(rootCallback){
         var min = self.responseObj.minYear;
         var max = self.responseObj.maxYear;
         var diff = (max-min);
@@ -125,11 +212,10 @@ var dashboardAsyncTasks = function dashboardAsyncTasks(){
                         }
                         self.responseObj.orderIds[queryObj.year] = orderids.map(function(elem){
                                         return elem.OrderID;
-                                    }).join(",");
-                        console.log("Sucess Order Id's fectched for .",queryObj.year);
+                                    });
+                        console.log("Sucessfully featched Order Id's for the year .",queryObj.year);
                         callback();
                     });
-                
                 } , 
                 function(err) {
                     if (err) {
@@ -143,7 +229,7 @@ var dashboardAsyncTasks = function dashboardAsyncTasks(){
             )
         
 
-    }
+    }*/
     
     if(dashboardAsyncTasks.caller != dashboardAsyncTasks.getInstance){
         throw new Error("This object cannot be instanciated");

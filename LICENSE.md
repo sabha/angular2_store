@@ -72,3 +72,5 @@ db.order.find().forEach(function(e){
 });
 
 http://dillinger.io/
+
+http://stackoverflow.com/questions/22932364/mongodb-group-values-by-multiple-fields

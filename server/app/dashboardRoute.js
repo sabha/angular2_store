@@ -17,7 +17,7 @@ DashboardRoute.prototype.configRoutes = function(router){
         suppliersTotal:0,
         minYear:0,
         maxYear:0,
-        orderIds:{}
+        orderIdsbyYear:[]
     };
     //CallBack for the API call Get Dashboard Summary
     function getDashboardSummaryCallback(req, res){
@@ -31,21 +31,18 @@ DashboardRoute.prototype.configRoutes = function(router){
             var asyncDashboardTasks = [];
             asyncParallelTasks.responseObj = responseObj;
             //Compose all the Asyn tasks
-            asyncDashboardTasks.push(asyncParallelTasks.getCategoryCount);
-            asyncDashboardTasks.push(asyncParallelTasks.getOrderCount);
-            asyncDashboardTasks.push(asyncParallelTasks.getProductCount);
-            asyncDashboardTasks.push(asyncParallelTasks.getSupplierCount);
-            asyncDashboardTasks.push(asyncParallelTasks.findMaxOrderDate);
-            asyncDashboardTasks.push(asyncParallelTasks.findMinOrderDate);
+            asyncDashboardTasks.push(asyncParallelTasks.getCountofOrderProdCatSupplier);
+            asyncDashboardTasks.push(asyncParallelTasks.getOrdersByYear);
             //Trigger the Async Task in Parallel
             async.parallel(asyncDashboardTasks , First_parallelCalls_Final_Callback);
+            
             //Tasks Final Callback
             function First_parallelCalls_Final_Callback(err) {
                 if (err) {
                     console.log('Error occured while FIRST Async Parallel Calls');
                     res.send(util.error(err));
                 }
-                console.log('SUCESS 1 : FIRST ASYNC PARALLEL Calls.');
+                console.log('SUCESSFUL 1 : FIRST ASYNC PARALLEL Calls.');
                 console.log('Calculated the Total of Products , Orders , Categories , Suppliers , Min Year , & Max Year');
         		rootCallback();
         	}            
@@ -60,8 +57,8 @@ DashboardRoute.prototype.configRoutes = function(router){
         function listOfAsyncParallelCalls_SECOND(rootCallback){
             var asyncDashboardTasks = [];
             
-             asyncDashboardTasks.push(asyncParallelTasks.getOrdrsByYear);
-           
+            asyncDashboardTasks.push(asyncParallelTasks.getProductsSoldByYear);
+            
             async.parallel(asyncDashboardTasks , Second_parallelCalls_Final_Callback);
             //Tasks Final Callback
             function Second_parallelCalls_Final_Callback(err) {
@@ -69,7 +66,7 @@ DashboardRoute.prototype.configRoutes = function(router){
                     console.log('Error occured while Second Async Parallel Calls.');
                     res.send(util.error(err));
                 }
-                console.log('SUCESS 2 : SECOND ASYNC PARALLEL Calls.');
+                console.log('SUCESSFUL 2 : SECOND ASYNC PARALLEL Calls.');
                 //console.log('Calculated the Total of Products , Orders , Categories , Suppliers , Min Year , & Max Year');
         		rootCallback();
         		//res.json(util.sucess(responseObj));
@@ -91,7 +88,7 @@ DashboardRoute.prototype.configRoutes = function(router){
             if (err){
                 res.send(util.error(err));
             }
-            console.log('SUCESS  : ASYNC SERIES Calls');
+            console.log('SUCESSFUL ALL  : ASYNC SERIES Calls');
             res.json(util.sucess(responseObj));
             
         }        
