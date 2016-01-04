@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/http', 'rxjs/Rx'], function(exports_1) {
+System.register(['angular2/core', 'rxjs/Rx', 'app/services/dashboardHTTPSevice'], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,24 +8,23 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Rx'], function(exports_
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, http_1;
+    var core_1, dashboardHTTPSevice_1;
     var SummaryComponent;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
             },
-            function (http_1_1) {
-                http_1 = http_1_1;
-            },
-            function (_1) {}],
+            function (_1) {},
+            function (dashboardHTTPSevice_1_1) {
+                dashboardHTTPSevice_1 = dashboardHTTPSevice_1_1;
+            }],
         execute: function() {
             SummaryComponent = (function () {
                 function SummaryComponent(http) {
                     var _this = this;
                     this.http = http;
-                    http.get('api/dashboardSummary')
-                        .map(function (res) { return res.json(); })
+                    http.getSummary()
                         .subscribe(function (summary) {
                         console.log(summary.data);
                         _this.dashboardSummary = summary.data;
@@ -36,11 +35,12 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Rx'], function(exports_
                         selector: 'dashboard-summary',
                         templateUrl: './app/admin/dashboard/summary/summary.component.html',
                         styleUrls: ['./app/admin/dashboard/summary/summary.style.css'],
-                        viewProviders: [http_1.HTTP_PROVIDERS]
+                        providers: [dashboardHTTPSevice_1.DashboardHTTPSevice]
                     }), 
-                    __metadata('design:paramtypes', [http_1.Http])
+                    __metadata('design:paramtypes', [(typeof (_a = typeof dashboardHTTPSevice_1.DashboardHTTPSevice !== 'undefined' && dashboardHTTPSevice_1.DashboardHTTPSevice) === 'function' && _a) || Object])
                 ], SummaryComponent);
                 return SummaryComponent;
+                var _a;
             })();
             exports_1("SummaryComponent", SummaryComponent);
         }

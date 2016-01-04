@@ -18,7 +18,7 @@ System.register(['angular2/platform/browser', 'angular2/router', './app.componen
                 dashboardHTTPSevice_1 = dashboardHTTPSevice_1_1;
             }],
         execute: function() {
-            browser_1.bootstrap(app_component_1.AppComponent, router_1.ROUTER_PROVIDERS, http_1.HTTP_PROVIDERS, dashboardHTTPSevice_1.DashboardHTTPSevice);
+            browser_1.bootstrap(app_component_1.AppComponent, [router_1.ROUTER_PROVIDERS, http_1.HTTP_PROVIDERS, dashboardHTTPSevice_1.DashboardHTTPSevice]);
         }
     }
 });

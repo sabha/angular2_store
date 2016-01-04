@@ -5,4 +5,4 @@ import {Http, HTTP_PROVIDERS} from 'angular2/http';
 import {DashboardHTTPSevice} from 'app/services/dashboardHTTPSevice';
 
 
-bootstrap(AppComponent , ROUTER_PROVIDERS , HTTP_PROVIDERS,DashboardHTTPSevice);
+bootstrap(AppComponent , [ROUTER_PROVIDERS , HTTP_PROVIDERS,DashboardHTTPSevice]);
