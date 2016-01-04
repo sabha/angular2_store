@@ -1,50 +1,29 @@
 <div class="panel panel-default">
   <!-- Default panel contents -->
   <div class="panel-heading">Manage Products</div>
-  <!-- Table -->
+  <!-- Table 
+    ProductID	:	1
+    ProductName	:	Chai
+    CategoryID	:	1
+    QuantityPerUnit	:	10 boxes x 20 bags
+    UnitPrice	:	18
+    UnitsInStock	:	39
+  -->
     <table class="table table-striped">
     <thead>
       <tr>
-        <th>Firstname</th>
-        <th>Lastname</th>
-        <th>Email</th>
-        <td>
-            <button type="button" class="btn btn-default btn-sm">
-              <span class="glyphicon glyphicon-edit"></span> Edit
-            </button>
-        </td>        
+        <th>Id</th>
+        <th>Name</th>
+        <th>Unit Price</th>
+        <th>Units In Stock</th>
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td>John</td>
-        <td>Doe</td>
-        <td>john@example.com</td>
-        <td>
-            <button type="button" class="btn btn-default btn-sm">
-              <span class="glyphicon glyphicon-edit"></span> Edit
-            </button>
-        </td>        
-      </tr>
-      <tr>
-        <td>Mary</td>
-        <td>Moe</td>
-        <td>mary@example.com</td>
-        <td>
-            <button type="button" class="btn btn-default btn-sm">
-              <span class="glyphicon glyphicon-edit"></span> Edit
-            </button>
-        </td>
-      </tr>
-      <tr>
-        <td>July</td>
-        <td>Dooley</td>
-        <td>july@example.com</td>
-        <td>
-            <button type="button" class="btn btn-default btn-sm">
-              <span class="glyphicon glyphicon-edit"></span> Edit
-            </button>
-        </td>
+      <tr *ngFor="#product of productsList" >
+        <td>{{product.ProductID}}</td>
+        <td>{{product.ProductName}}</td>
+        <td>{{product.UnitPrice}}</td>
+        <td>{{product.UnitsInStock}}</td>
       </tr>
     </tbody>
     </table>

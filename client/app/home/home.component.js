@@ -34,8 +34,9 @@ System.register(['angular2/core', 'angular2/router', 'angular2/http', 'rxjs/Rx']
                         { name: "Add to Cart & Checkout" },
                         { name: "Place Order" }
                     ];
-                    http.get('api/adminFeatures')
-                        .map(function (res) { return res.json(); })
+                    this.apiCall = http.get('api/adminFeatures').share();
+                    // Call map on the response observable to get the parsed people object
+                    this.apiCall.map(function (res) { return res.json(); })
                         .subscribe(function (features) { return _this.adminFeatures = features; });
                 }
                 HomeComponent = __decorate([

@@ -12,14 +12,7 @@ import 'rxjs/Rx' ;
 })
 
 export class SummaryComponent { 
-    /*
-    var responseObj = {
-        productsTotal:0,
-        ordersTotal:0,
-        categoriesTotal:0,
-        suppliersTotal:0
-    };
-    */    
+    
     public dashboardSummary;
     constructor (public http: Http){
         http.get('api/dashboardSummary')

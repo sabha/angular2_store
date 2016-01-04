@@ -15,6 +15,7 @@ export class HomeComponent {
     public storeFrontFeatures : [];
     //From remote server api/adminFeatures
     public adminFeatures : [];
+    private apiCall : any;
     constructor (public http: Http){
         this.storeFrontFeatures = [ 
              {name:"Northwind Database"},
@@ -24,9 +25,9 @@ export class HomeComponent {
 			 {name:"Place Order"}
 			];
 			
-        http.get('api/adminFeatures')
+        this.apiCall = http.get('api/adminFeatures').share();
         // Call map on the response observable to get the parsed people object
-        .map(res => res.json())
+        this.apiCall.map(res => res.json())
         // Subscribe to the observable to get the parsed people object and attach it to the
         .subscribe(features => this.adminFeatures = features);
 			
