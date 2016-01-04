@@ -63,6 +63,7 @@ http://www.avactis.com/demo/
 https://ng2store-sabhab1.c9users.io
 
 https://coolors.co/app/f0b67f-fe5f55-d6d1b1-c7efcf-eef5db
+https://coolors.co/app/50514f-f25f5c-ffe066-247ba0-70c1b3
 
 db.order.find().forEach(function(e){
     e.OrderDate=new Date(e.OrderDate);
@@ -74,3 +75,5 @@ db.order.find().forEach(function(e){
 http://dillinger.io/
 
 http://stackoverflow.com/questions/22932364/mongodb-group-values-by-multiple-fields
+
+http://blog.edenmsg.com/angular2-typescript-gulp-and-expressjs/

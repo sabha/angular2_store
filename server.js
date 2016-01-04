@@ -5,13 +5,17 @@
 var express    = require('express');
 var bodyParser = require('body-parser');
 var app        = express();
-
+var path = require('path');
 var util 	   = require('./server/app/util');	
 var customerRoute = require('./server/app/customerRoute');
 var productRoute  = require('./server/app/productRoute');
 var categoryRoute = require('./server/app/categoryRoute');
 var dashboardRoute= require('./server/app/dashboardRoute');
 var mongoose   = require('mongoose');
+var morgan     = require('morgan');
+
+// configure app
+app.use(morgan('dev')); // log requests to the console
 
 // configure body parser
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -22,12 +26,18 @@ var publicDir = process.argv[2] || __dirname + '';// suppse to be /client
 
 var ipaddress = process.env.OPENSHIFT_NODEJS_IP;
 
-/*
-app.get("/", function (req, res) {
-  res.redirect("client/index.html");
-});
-*/
 app.use(express.static(publicDir));
+// set static directories
+
+/*
+app.use('/client', express.static(path.resolve('./client')));
+app.use('/node_modules', express.static(path.resolve('./node_modules')));
+app.engine('html', require('ejs').renderFile);
+var renderIndex = function(req, res){
+    res.render(path.resolve('./client/index.html'));
+}
+app.get('/*', renderIndex);
+*/
 
 var url = 'mongodb://localhost:27017/ngStore';
 

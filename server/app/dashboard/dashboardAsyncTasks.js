@@ -1,6 +1,6 @@
 var Product     = require('../models/product');
 var Order       = require('../models/order');
-var Category    = require('../models/product');
+var Category    = require('../models/category');
 var Supplier    = require('../models/supplier');
 var OrderDetail    = require('../models/orderDetail');
 
@@ -10,7 +10,10 @@ var dashboardAsyncTasks = function dashboardAsyncTasks(){
     var self = this;
     this.responseObj = {};
     this.getCountofOrderProdCatSupplier = function(rootCallback){
-        var collectionList = [  {name:Product , key:'productsTotal' },{name:Order , key:'ordersTotal'},{name:Category , key:'categoriesTotal'},{name:Supplier , key:'suppliersTotal'}];
+        var collectionList = [  {name:Product , key:'productsTotal' },
+        {name:Order , key:'ordersTotal'},
+        {name:Category , key:'categoriesTotal'},
+        {name:Supplier , key:'suppliersTotal'}];
         async.forEach(collectionList , 
             function(queryObj, callback) {
                 queryObj['name'].count({}, function( err, count){
@@ -34,11 +37,20 @@ var dashboardAsyncTasks = function dashboardAsyncTasks(){
             }
         );        
     }
-    this.getOrdersByYear = function(callback){
+    this.getOrdersByYearAndMonth = function(callback){
         //db.order.aggregate([ {$group:{_id:{$year:"$OrderDate"} , OrderID:{$addToSet:$OrderID}}},{$sort:{"_id":1}} ])
         Order.aggregate([
-            {$group:{_id:{$year:"$OrderDate"} , OrderID:{$addToSet:"$OrderID"}}}, 
-            {$sort:{"_id":1}} 
+            {$project : {
+                 varyear : {$year : "$OrderDate"}, 
+                 varmonth : {$month : "$OrderDate"},
+                 varOrderId : "$OrderID"
+            }},
+            {$group : {
+                 _id : {year : "$varyear", month : "$varmonth"},
+                 orderID:{$addToSet:"$varOrderId"},
+                 count : {$sum : 1}
+            }},
+            {$sort:{"_id.year":1 , "_id.month":1}}
         ] , function(err , result) {
                 if (err) {
                     console.log("Error occured while grouping Order ID by Years.");
@@ -47,47 +59,79 @@ var dashboardAsyncTasks = function dashboardAsyncTasks(){
                 console.log("Sucessfully grouped Order ID by Years.");
                 if(result && result.length > 0){
                     var len = result.length;
-                    self.responseObj.minYear = result[0]._id;
-                    self.responseObj.maxYear = result[len-1]._id;
-                    self.responseObj.orderIdsbyYear = [];
-                    self.responseObj.orderIdsbyYear = result.map(function(obj){
-                        var r = {};
-                        r[obj._id] = obj.OrderID;
-                        return r;
-                    });
+                    self.responseObj.minYear = result[0]._id.year;
+                    self.responseObj.maxYear = result[len-1]._id.year;
+                    self.responseObj.ordersbyYearAndMonth = [];
+                    self.responseObj.ordersbyYearAndMonth = result;
+                    
                 }
                 //console.log(self.responseObj.orderIdsbyYear);
                 callback();
             });
     }
     
-    this.getProductsSoldByYear = function(callback){
+    this.getProductsSoldByYear = function(rootCallback){
          //db.orderDetail.aggregate([ { $match :{"OrderID":{$in:orders}} },{$group:{_id:"$ProductID" , Total:{$sum:1} }} , {$sort:{'Total':1}} ]);
-         var orders , key ;
-         for(var i=0;i<self.responseObj.orderIdsbyYear.length;i++){
-             orders = self.responseObj.orderIdsbyYear[i];
-             for (var key in orders){
-                OrderDetail.aggregate([ 
-                    { $match :{"OrderID":{$in:orders[key]}} },
-                    { $group :{_id:"$ProductID" , Total:{$sum:1} }} , 
+         var orders ;
+         self.responseObj.orderDetail = {};
+         async.forEach(self.responseObj.ordersbyYearAndMonth , 
+         function(orderDetail , callback){
+            OrderDetail.aggregate([ 
+                    { $match :{"OrderID":{$in:orderDetail.orderID}} },
+                    { $group :{_id:"$OrderID" ,  products:{$addToSet:"$ProductID"} }} , 
                     { $sort  :{'Total':1}} 
-                    ],
-                     callbackHandler
-                     );                 
-             }
-             break;                     
-         }
-         
-         function callbackHandler(err , result) {
+                ],
+                      function(err , result) {
+                        if (err) {
+                            console.log("Error occured while aggregating Oders sold by year & Month - ",JSON.stringify(orderDetail._id));
+                            callback(err);
+                        }
+                        console.log("Sucessfully aggregating Oders sold on Year/Month - ",JSON.stringify(orderDetail._id));
+                        //console.log(result);
+                        result.forEach(function(item){
+                            self.responseObj.orderDetail[item._id] = item.products;
+                        });
+                        callback();     
+                        
+                     }
+                 );             
+         } , 
+         function(err){
             if (err) {
-                console.log("Error occured while aggregating Oders sold by year "+key);
-                callback(err);
+                console.log("Error occured while aggregating Oders sold by year & Month",err);
+                rootCallback(err);
             }
-            console.log("Sucessfull aggregated Orders for the year "+key);
-            console.log(result);
-            callback();
-         }
-         
+            /*self.responseObj.ordersbyYear = {};
+            var year,month,orders;
+            self.responseObj.ordersbyYearAndMonth.forEach(function(item){
+               year = item._id.year;
+               month = item._id.month;
+               orders = item.orderID;
+               if(self.responseObj.ordersbyYear[year] == undefined || self.responseObj.ordersbyYear[year] == null){
+                    self.responseObj.ordersbyYear[year] = {};
+                }
+                self.responseObj.ordersbyYear[year][month]  = orders;
+               
+            });
+            delete  self.responseObj.ordersbyYearAndMonth;*/
+            self.responseObj.ordersbyYearAndMonth.forEach(function(item){
+               var year = item._id.year;
+               var month = item._id.month;
+               var orders = item.orderID;
+               item['year'] = year;
+               item['month'] = month;
+               item['products'] = 0;
+               delete item._id;
+               orders.forEach(function(id){
+                   item['products'] += self.responseObj.orderDetail[id].length;
+                   
+               });
+               
+               
+            });
+            console.log("Sucessfull aggregated Order details for all the Orders.");
+            rootCallback();             
+         });
     }
     
     

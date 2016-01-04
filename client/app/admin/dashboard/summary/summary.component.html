@@ -13,7 +13,7 @@
     </div>      
   </div>
   <div class="col-xs-3">
-    <div class='circle-multiline' style='background:#C7EFCF'>
+    <div class='circle-multiline' style='background:#247BA0'>
         <span style='font-size: 2.5em'>{{dashboardSummary?.categoriesTotal}}</span><br>
         Categories
     </div>      
@@ -24,4 +24,30 @@
         Suppliers
     </div>      
   </div>
+</div>
+<p></p>
+<div class="row">
+	<div class="panel panel-default">
+	  <div class="panel-heading"><h4>Order Details by Year-Month</h4></div>
+	  <div class="panel-body">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Year</th>
+            <th>Month</th>
+            <th>Orders Placed</th>
+            <th>Total Products per Order</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="#orderDetail of dashboardSummary?.ordersbyYearAndMonth" >
+            <td>{{orderDetail.year}}</td>
+            <td>{{orderDetail.month}}</td>
+            <td>{{orderDetail.count}}</td>
+            <td>{{orderDetail.products}}</td>
+          </tr>
+        </tbody>
+      </table>
+	  </div>
+	</div>
 </div>

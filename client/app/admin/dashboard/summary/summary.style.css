@@ -4,6 +4,17 @@
     width: 120px;
     text-align: center;
     vertical-align: middle;
+    border-radius: 5%;
+    background: purple;
+    color: white;
+}
+
+.multiline {
+    display: table-cell;
+    height: 120px;
+    width: 120px;
+    text-align: center;
+    vertical-align: middle;
     border-radius: 50%;
     background: purple;
     color: white;

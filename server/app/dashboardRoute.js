@@ -17,7 +17,8 @@ DashboardRoute.prototype.configRoutes = function(router){
         suppliersTotal:0,
         minYear:0,
         maxYear:0,
-        orderIdsbyYear:[]
+        ordersbyYearAndMonth:[],
+        orderDetail:{},
     };
     //CallBack for the API call Get Dashboard Summary
     function getDashboardSummaryCallback(req, res){
@@ -32,7 +33,7 @@ DashboardRoute.prototype.configRoutes = function(router){
             asyncParallelTasks.responseObj = responseObj;
             //Compose all the Asyn tasks
             asyncDashboardTasks.push(asyncParallelTasks.getCountofOrderProdCatSupplier);
-            asyncDashboardTasks.push(asyncParallelTasks.getOrdersByYear);
+            asyncDashboardTasks.push(asyncParallelTasks.getOrdersByYearAndMonth);
             //Trigger the Async Task in Parallel
             async.parallel(asyncDashboardTasks , First_parallelCalls_Final_Callback);
             
